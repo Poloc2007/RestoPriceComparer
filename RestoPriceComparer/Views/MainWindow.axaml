@@ -1,0 +1,29 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="RestoPriceComparer.Views.MainWindow"
+        Title="Comparateur de prix"
+        Width="900"
+        Height="600">
+
+    <StackPanel Margin="30" Spacing="15">
+
+        <TextBlock
+            Text="Mon comparateur de prix"
+            FontSize="28"
+            FontWeight="Bold"
+            HorizontalAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+            
+            <TextBox
+                PlaceholderText="Rechercher un produit..."
+                Width="300"
+                HorizontalAlignment="Center"/>
+
+            <Button
+                Content="Rechercher"
+                HorizontalAlignment="Left"/>
+        </StackPanel>
+    </StackPanel>
+
+</Window>
