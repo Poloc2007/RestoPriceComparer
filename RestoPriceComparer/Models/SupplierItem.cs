@@ -14,7 +14,7 @@ namespace RestoPriceComparer.Models
         public Supplier? Supplier { get; set; }
         public int? ProductId { get; set; }
         public Product? Product { get; set; }
-        public Label Label { get; set; }
+        public string Label { get; set; } = string.Empty;
         public int PackCount { get; set; }
         public int UnitQuantity { get; set; }
         public Unit Unit { get; set; }
