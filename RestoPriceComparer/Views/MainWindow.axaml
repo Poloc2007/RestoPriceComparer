@@ -9,10 +9,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="RestoPriceComparer">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
     <StackPanel Margin="30" Spacing="15">
 
         <TextBlock
