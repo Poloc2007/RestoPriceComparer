@@ -23,7 +23,9 @@
             FontSize="18"
             HorizontalAlignment="Center"/>
 
-        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal"
+                    Spacing="10" 
+                    HorizontalAlignment="Center">
             
             <TextBox
                 PlaceholderText="Rechercher un produit..."
@@ -35,26 +37,47 @@
                 HorizontalAlignment="Left"/>
         </StackPanel>
         
-        <ListBox ItemsSource="{Binding Suppliers}">
+        <ListBox ItemsSource="{Binding Suppliers}" >
+            <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListBox.Styles>
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="Models:Supplier">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding WebsiteUrl}" Foreground="Gray"/>
-                    </StackPanel>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0" 
+                                    Orientation="Horizontal" 
+                                    Spacing="10">
+                            <TextBlock Text="{Binding Name}" 
+                                       FontWeight="Bold"/>
+                            <TextBlock Text="{Binding WebsiteUrl}" 
+                                       Foreground="Gray"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="1" 
+                                Content="Supprimer"
+                                Command="{Binding $parent[ListBox].((vm:MainWindowViewModel)DataContext).DeleteSupplierCommand}"
+                                CommandParameter="{Binding}"
+                                Background="DarkRed"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" 
+                    Spacing="10" 
+                    HorizontalAlignment="Center">
             <TextBox
                 PlaceholderText="Nom du fournisseur"
                 Width="200"
-                Text="{Binding NewSupplierName, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding NewSupplierName, 
+                UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox
                 PlaceholderText="URL du site web"
                 Width="400"
-                Text="{Binding NewSupplierWebsiteUrl, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding NewSupplierWebsiteUrl, 
+                UpdateSourceTrigger=PropertyChanged}"/>
             <Button
                 Content="Ajouter un fournisseur"
                 Command="{Binding AddSupplierCommand}"/>

@@ -12,19 +12,28 @@ namespace RestoPriceComparer.Services
     public class SupplierService : ISupplierService
     {
         private readonly AppDbContext _context;
+
         public SupplierService(AppDbContext context)
         {
             _context = context;
             context.Database.Migrate();
         }
+
         public List<Supplier> GetSuppliers()
         {
             return _context.Suppliers.ToList();
         }
+
         public void AddSupplier(Supplier supplier)
         {
             _context.Suppliers.Add(supplier);
             _context.SaveChanges();
-    }
+        }
+
+        public void DeleteSupplier(Supplier supplier)
+        {
+            _context.Suppliers.Remove(supplier);
+            _context.SaveChanges();
+        }
     }
 }

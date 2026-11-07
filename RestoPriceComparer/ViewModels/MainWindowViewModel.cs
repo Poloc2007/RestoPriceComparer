@@ -17,6 +17,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private string _newSupplierName = string.Empty;
     [ObservableProperty]
     private string? _newSupplierWebsiteUrl;
+    [ObservableProperty]
+    private Supplier? _selectedSupplier;
     private readonly ISupplierService _supplierService;
 
     public MainWindowViewModel(ISupplierService supplierService)
@@ -46,7 +48,7 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void AddSupplier()
+    private void AddSupplier()
     {
         if (!string.IsNullOrWhiteSpace(NewSupplierName))
         {
@@ -61,5 +63,13 @@ public partial class MainWindowViewModel : ViewModelBase
             NewSupplierWebsiteUrl = null;
             Greeting = $"{Suppliers.Count} fournisseurs en base";
         }
+    }
+
+    [RelayCommand]
+    private void DeleteSupplier(Supplier supplier)
+    {
+        _supplierService.DeleteSupplier(supplier);
+        Suppliers.Remove(supplier);
+        Greeting = $"{Suppliers.Count} fournisseurs en base";
     }
 }
