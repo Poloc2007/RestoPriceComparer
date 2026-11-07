@@ -45,6 +45,21 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+            <TextBox
+                PlaceholderText="Nom du fournisseur"
+                Width="200"
+                Text="{Binding NewSupplierName, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox
+                PlaceholderText="URL du site web"
+                Width="400"
+                Text="{Binding NewSupplierWebsiteUrl, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button
+                Content="Ajouter un fournisseur"
+                Command="{Binding AddSupplierCommand}"/>
+        </StackPanel>
+
     </StackPanel>
 
 </Window>

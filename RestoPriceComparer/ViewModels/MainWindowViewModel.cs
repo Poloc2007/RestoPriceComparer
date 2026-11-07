@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using RestoPriceComparer.Models;
 using RestoPriceComparer.Services;
 using System.Collections.Generic;
@@ -10,9 +11,13 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _greeting = string.Empty;
-    private readonly ISupplierService _supplierService;
     [ObservableProperty]
     private ObservableCollection<Supplier> _suppliers = new ObservableCollection<Supplier>();
+    [ObservableProperty]
+    private string _newSupplierName = string.Empty;
+    [ObservableProperty]
+    private string? _newSupplierWebsiteUrl;
+    private readonly ISupplierService _supplierService;
 
     public MainWindowViewModel(ISupplierService supplierService)
     {
@@ -38,5 +43,23 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         Greeting = $"{suppliers.Count} fournisseurs en base";
+    }
+
+    [RelayCommand]
+    public void AddSupplier()
+    {
+        if (!string.IsNullOrWhiteSpace(NewSupplierName))
+        {
+            Supplier newSupplier = new Supplier
+            {
+                Name = NewSupplierName.Trim(),
+                WebsiteUrl = NewSupplierWebsiteUrl
+            };
+            _supplierService.AddSupplier(newSupplier);
+            Suppliers.Add(newSupplier);
+            NewSupplierName = string.Empty;
+            NewSupplierWebsiteUrl = null;
+            Greeting = $"{Suppliers.Count} fournisseurs en base";
+        }
     }
 }
