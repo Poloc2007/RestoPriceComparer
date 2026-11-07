@@ -1,9 +1,17 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:RestoPriceComparer.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="RestoPriceComparer.Views.MainWindow"
-        Title="Comparateur de prix"
-        Width="900"
-        Height="600">
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="RestoPriceComparer">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
 
     <StackPanel Margin="30" Spacing="15">
 
@@ -11,6 +19,10 @@
             Text="Mon comparateur de prix"
             FontSize="28"
             FontWeight="Bold"
+            HorizontalAlignment="Center"/>
+
+            
+        <TextBlock Text="{Binding Greeting}"
             HorizontalAlignment="Center"/>
 
         <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
