@@ -1,16 +1,17 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestoPriceComparer.Models;
 
-public class Supplier
+public partial class Supplier : ObservableObject
 {
     public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string? WebsiteUrl { get; set; }
+
+    [ObservableProperty]
+    private string _name = string.Empty;
+
+    [ObservableProperty]
+    private string? _websiteUrl;
 
     public List<SupplierItem> Items { get; set; } = new();
 }

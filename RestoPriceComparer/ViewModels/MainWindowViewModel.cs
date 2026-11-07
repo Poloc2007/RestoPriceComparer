@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using RestoPriceComparer.Models;
 using RestoPriceComparer.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -18,7 +19,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private string? _newSupplierWebsiteUrl;
     [ObservableProperty]
-    private Supplier? _selectedSupplier;
+    private Supplier? _editingSupplier;
     private readonly ISupplierService _supplierService;
 
     public MainWindowViewModel(ISupplierService supplierService)
@@ -55,7 +56,7 @@ public partial class MainWindowViewModel : ViewModelBase
             Supplier newSupplier = new Supplier
             {
                 Name = NewSupplierName.Trim(),
-                WebsiteUrl = NewSupplierWebsiteUrl
+                WebsiteUrl = string.IsNullOrWhiteSpace(NewSupplierWebsiteUrl) ? null : NewSupplierWebsiteUrl.Trim()
             };
             _supplierService.AddSupplier(newSupplier);
             Suppliers.Add(newSupplier);
@@ -66,8 +67,52 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    public void StartEdit(Supplier supplier)
+    {
+        if (supplier != null)
+        {
+            EditingSupplier = supplier;
+            NewSupplierName = supplier.Name;
+            NewSupplierWebsiteUrl = supplier.WebsiteUrl;
+        }
+    }
+
+    [RelayCommand]
+    private void SaveSupplier()
+    {
+        if (EditingSupplier != null)
+        {
+            if (!string.IsNullOrWhiteSpace(NewSupplierName))
+            {
+                EditingSupplier.Name = NewSupplierName.Trim();
+                EditingSupplier.WebsiteUrl = string.IsNullOrWhiteSpace(NewSupplierWebsiteUrl) ? null : NewSupplierWebsiteUrl.Trim();
+                _supplierService.UpdateSupplier(EditingSupplier);
+                EditingSupplier = null;
+                NewSupplierName = string.Empty;
+                NewSupplierWebsiteUrl = null;
+            }
+        }
+        else
+        {
+            AddSupplier();
+        }
+    }
+    
+    [RelayCommand]
+    private void CancelEdit()
+    {
+        EditingSupplier = null;
+        NewSupplierName = string.Empty;
+        NewSupplierWebsiteUrl = null;
+    }
+
+    [RelayCommand]
     private void DeleteSupplier(Supplier supplier)
     {
+        if (supplier == EditingSupplier)
+        {
+            CancelEdit();
+        }
         _supplierService.DeleteSupplier(supplier);
         Suppliers.Remove(supplier);
         Greeting = $"{Suppliers.Count} fournisseurs en base";

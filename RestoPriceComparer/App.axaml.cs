@@ -1,11 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using RestoPriceComparer.Data;
+using RestoPriceComparer.Services;
 using RestoPriceComparer.ViewModels;
 using RestoPriceComparer.Views;
-using Microsoft.Extensions.DependencyInjection;
-using RestoPriceComparer.Services;
-using RestoPriceComparer.Data;
 
 namespace RestoPriceComparer;
 
@@ -19,6 +20,7 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         ServiceProvider serviceProvider = BuildServices();
+        serviceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

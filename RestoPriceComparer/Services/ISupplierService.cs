@@ -11,6 +11,7 @@ namespace RestoPriceComparer.Services
     {
         public List<Supplier> GetSuppliers();
         public void AddSupplier(Supplier supplier);
+        public void UpdateSupplier(Supplier supplier);
         public void DeleteSupplier(Supplier supplier);
     }
 }
