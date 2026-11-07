@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.EntityFrameworkCore;
-using RestoPriceComparer.Data;
 using RestoPriceComparer.Models;
-using System.Linq;
+using RestoPriceComparer.Services;
+using System.Collections.Generic;
 
 namespace RestoPriceComparer.ViewModels;
 
@@ -10,24 +9,26 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _greeting = string.Empty;
+    private readonly ISupplierService _supplierService;
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(ISupplierService supplierService)
     {
+        _supplierService = supplierService;
         LoadTestData();
     }
 
     public void LoadTestData()
     {
-        using AppDbContext context = new AppDbContext();
-        context.Database.Migrate();
+        List<Supplier> suppliers = _supplierService.GetSuppliers();
 
-        if (!context.Suppliers.Any())
+        if (suppliers.Count == 0)
         {
             Supplier supplier1 = new Supplier { Name = "Supplier 1", WebsiteUrl = "https://supplier1.com" };
             Supplier supplier2 = new Supplier { Name = "Supplier 2", WebsiteUrl = "https://supplier2.com" };
-            context.Suppliers.AddRange(supplier1, supplier2);
-            context.SaveChanges();
+            _supplierService.AddSupplier(supplier1);
+            _supplierService.AddSupplier(supplier2);
         }
-        Greeting = $"{context.Suppliers.Count()} fournisseurs en base";
+
+        Greeting = $"{suppliers.Count} fournisseurs en base";
     }
 }
