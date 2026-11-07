@@ -1,4 +1,5 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:Models="using:RestoPriceComparer.Models"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,8 +18,9 @@
             FontWeight="Bold"
             HorizontalAlignment="Center"/>
 
-            
-        <TextBlock Text="{Binding Greeting}"
+        <TextBlock
+            Text="{Binding Greeting}"
+            FontSize="18"
             HorizontalAlignment="Center"/>
 
         <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
@@ -32,6 +34,17 @@
                 Content="Rechercher"
                 HorizontalAlignment="Left"/>
         </StackPanel>
+        
+        <ListBox ItemsSource="{Binding Suppliers}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="Models:Supplier">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding WebsiteUrl}" Foreground="Gray"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </StackPanel>
 
 </Window>
